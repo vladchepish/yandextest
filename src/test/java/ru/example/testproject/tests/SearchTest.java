@@ -4,6 +4,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.example.testproject.pages.MainPage;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -13,8 +16,15 @@ public class SearchTest {
     private MainPage mainPage;
 
     @DataProvider(name = "data")
-    public Object[][] createData1() {
-        return new Object[][]{{"погода"}, {"Липецк"}, {"Лото"}};
+    public Iterator<Object[]> createData1() throws IOException {
+        List<Object[]> list = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/test_data.txt")));
+        String line = reader.readLine();
+        while (line != null){
+            list.add(new Object[]{line});
+            line = reader.readLine();
+        }
+        return list.iterator();
     }
 
 
